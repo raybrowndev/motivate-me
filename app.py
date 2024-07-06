@@ -141,10 +141,21 @@ class ThemeSelectionApp(HydraHeadApp):
 
 
 # Define a basic Streamlit app
-class AboutApp(HydraHeadApp):
+
+class OverviewApp(HydraHeadApp):
     def run(self):
-        st.title("About Page")
-        st.write("This is the about page!")
+        st.title("Month Overview")
+        st.write("Month overview coming soon!")
+
+class LeaderboardApp(HydraHeadApp):
+    def run(self):
+        st.title("Leaderboard")
+        st.write("Leaderboard coming soon!")
+
+class BlogApp(HydraHeadApp):
+    def run(self):
+        st.title("Blog")
+        st.write("Blog coming soon!")
 
 if __name__ == "__main__":
     over_theme = {
@@ -168,7 +179,10 @@ if __name__ == "__main__":
 
     # Add the apps to the HydraApp instance
     app.add_app("Home", ThemeSelectionApp(), is_home=True)  # Use ThemeSelectionApp for the home page
-    app.add_app("Leader Board", AboutApp())
+    app.add_app("Overview", OverviewApp())
+    app.add_app("Leaderboard", LeaderboardApp())
+    app.add_app("Blog", BlogApp())
+
 
     # Run the HydraApp
     app.run()
