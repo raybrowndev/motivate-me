@@ -106,17 +106,19 @@ class ThemeSelectionApp(HydraHeadApp):
         st.text(" ")
         st.text(" ")
         picked = False
-        # Use st.beta_columns to create layout columns
+
+        # Use st.columns to create layout columns
         col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15 = st.columns(15)
 
         # Use col8 to center the button
         with col8:
             if st.button("Pick Theme", key="pick_button", type="secondary"):
-                # st.text(" ")
                 picked = True
 
+        # If button clicked, pick a theme
         if picked:
             selected_theme = pick_theme()
+
             # Centered text for the theme announcement
             st.write('<div class="centered-text">This week\'s theme is... </div>', unsafe_allow_html=True)
             st.text(" ")
@@ -170,6 +172,7 @@ class LogDetails(HydraHeadApp):
                 text-align: center; /* Center align text within labels */
                 font-size: 18px;
                 font-weight: bold;
+                color: #0A215A; /* Dark blue color for labels */
                 margin-right: 10px;
             }
             .form-input {
@@ -195,7 +198,8 @@ class LogDetails(HydraHeadApp):
         st.markdown('<h1 class="log-details-title">Log Details✨</h1>', unsafe_allow_html=True)
 
         # Use the custom CSS class for the action required line
-        st.markdown('<div class="action-required">Action Required: Please log details from yesterday</div>', unsafe_allow_html=True)
+        st.markdown('<div class="action-required">Action Required: Please log details from yesterday</div>',
+                    unsafe_allow_html=True)
 
         # Form for TEAM, NAME, THEME, and DAILY COUNT
         form_fields = [
@@ -208,18 +212,39 @@ class LogDetails(HydraHeadApp):
         # Wrap the form in a container div for centering and alignment
         st.markdown('<div class="form-container">', unsafe_allow_html=True)
         for label, placeholder in form_fields:
+            input_id = label.strip(':').replace(" ", "_").lower()  # Generate a unique ID for each input
             st.markdown(
                 f"""
                 <div class="form-row">
                     <label class="form-label">{label}</label>
-                    <input class="form-input" type="text" placeholder="{placeholder}">
+                    <input class="form-input" id="{input_id}" type="text" placeholder="{placeholder}">
                 </div>
                 """,
                 unsafe_allow_html=True
             )
         st.markdown('</div>', unsafe_allow_html=True)
 
+        st.text(" ")
 
+        # Use st.columns to create layout columns
+        col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15 = st.columns(15)
+
+        # Use col8 to center the button
+        with col8:
+            if st.button("Submit", key="pick_button", type="secondary"):
+                # Clear input fields by setting the value to an empty string using JavaScript
+                for label, _ in form_fields:
+                    input_id = label.strip(':').replace(" ", "_").lower()  # Generate the ID matching each input
+                    st.markdown(
+                        f"""
+                        <script>
+                        document.getElementById("{input_id}").value = "";
+                        </script>
+                        """,
+                        unsafe_allow_html=True
+                    )
+                st.markdown('<div class="action-required">Submitted!</div>',
+                            unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
