@@ -30,14 +30,14 @@ class ThemeSelectionApp(HydraHeadApp):
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                background-color: #FFDEE3;
+                background-color: #0A215A;
                 padding: 20px;
                 border-radius: 10px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 width: 50%;
                 margin: 0 auto;
                 text-align: center;
-                color: black;
+                color: white;
                 font-size: 24px;
                 font-family: Arial, sans-serif;
                 font-weight: bold;
@@ -142,27 +142,92 @@ class ThemeSelectionApp(HydraHeadApp):
 
 # Define a basic Streamlit app
 
-class OverviewApp(HydraHeadApp):
+class LogDetails(HydraHeadApp):
     def run(self):
-        st.title("Month Overview")
-        st.write("Month overview coming soon!")
+        # Custom CSS to align the title in the center and style the action required line and form
+        st.markdown(
+            """
+            <style>
+            .log-details-title {
+                text-align: center;
+                margin-bottom: 20px; /* Add margin to the bottom of the title */
+            }
+            .action-required {
+                text-align: center;
+                color: red;
+                font-size: 20px;
+                font-weight: bold;
+                margin-top: 20px;
+                margin-bottom: 20px; /* Add margin to the bottom of the action required line */
+            }
+            .form-container {
+                max-width: 600px; /* Set a maximum width for the form container */
+                margin: 0 auto; /* Center align the form horizontally */
+            }
+            .form-label {
+                display: inline-block;
+                width: 120px; /* Set a fixed width for the labels */
+                text-align: center; /* Center align text within labels */
+                font-size: 18px;
+                font-weight: bold;
+                margin-right: 10px;
+            }
+            .form-input {
+                width: 200px; /* Adjust this value to make the input box smaller */
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+                text-align: center; /* Center align text within input boxes */
+            }
+            .form-row {
+                display: flex;
+                align-items: center;
+                justify-content: center; /* Center align items horizontally */
+                margin-bottom: 10px; /* Add margin to the bottom of each form row */
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
 
-class LeaderboardApp(HydraHeadApp):
-    def run(self):
-        st.title("Leaderboard")
-        st.write("Leaderboard coming soon!")
+        # Use the custom CSS class in the title
+        st.markdown('<h1 class="log-details-title">Log Details✨</h1>', unsafe_allow_html=True)
 
-class BlogApp(HydraHeadApp):
-    def run(self):
-        st.title("Blog")
-        st.write("Blog coming soon!")
+        # Use the custom CSS class for the action required line
+        st.markdown('<div class="action-required">Action Required: Please log details from yesterday</div>', unsafe_allow_html=True)
+
+        # Form for TEAM, NAME, THEME, and DAILY COUNT
+        form_fields = [
+            ("TEAM:", "Enter your team"),
+            ("NAME:", "Enter your name"),
+            ("THEME:", "Enter the theme"),
+            ("DAILY COUNT:", "Enter daily count")
+        ]
+
+        # Wrap the form in a container div for centering and alignment
+        st.markdown('<div class="form-container">', unsafe_allow_html=True)
+        for label, placeholder in form_fields:
+            st.markdown(
+                f"""
+                <div class="form-row">
+                    <label class="form-label">{label}</label>
+                    <input class="form-input" type="text" placeholder="{placeholder}">
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        st.markdown('</div>', unsafe_allow_html=True)
+
+
+
 
 if __name__ == "__main__":
     over_theme = {
         'txc_inactive': 'black',
         'menu_background': 'white',
-        'txc_active': 'black',
-        'option_active': '#FFDEE3'
+        'txc_active': 'white',
+        'option_active': '#0A215A'
     }
 
     # Initialize the HydraApp with navbar theme
@@ -179,11 +244,7 @@ if __name__ == "__main__":
 
     # Add the apps to the HydraApp instance
     app.add_app("Home", ThemeSelectionApp(), is_home=True)  # Use ThemeSelectionApp for the home page
-    app.add_app("Overview", OverviewApp())
-    app.add_app("Leaderboard", LeaderboardApp())
-    app.add_app("Blog", BlogApp())
-
+    app.add_app("Log Details", LogDetails())
 
     # Run the HydraApp
     app.run()
-
